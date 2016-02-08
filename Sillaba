@@ -1,0 +1,66 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+
+/*Funzione che dice se un carattere è presente in una stringa*/
+
+int in(char c, char* s) {
+	if(*s == '\0') return 0;
+	if(*s == c) return 1;
+	else in(c, s+1);
+}
+
+/*Funzione che dice se il carattere è una lettera*/
+int isl(char c) {
+	if(c <= 'z' && c >= 'a') return 1;
+	if(c <= 'Z' && c >= 'A') return 1;
+	else return 0;
+}
+
+
+/*Funzione che dice se un carattere è una vocale*/
+int isv(char c) {
+	if(in(c , "aeiou") || in(c, "AEIOU")) return 1;
+	else return 0;
+}
+
+/*Funzione che dice se è una consonante*/
+int isc(char c) {
+	if(isl(c) && !(isv(c))) return 1;
+	else return 0;
+}
+
+/*Funzione che conta le vocali*/
+int cnts(char *s) {	
+	int j = 0;
+	for(; *s; s++){
+		if(isv(*s)) j++;
+	}
+	return j;
+}
+
+
+/*funzione chiave*/
+
+char* sillaba(char* s) {
+	//printf("%s\n" , s);
+	int voc = cnts(s);
+	int l = strlen(s)+1;
+	char* new = malloc(sizeof(char)*(voc+l));
+	//char* new = strdup("");
+	int i,j;
+	for(i=0; s[i] != '\0' ; i++){
+		new[j] = s[i];
+		if(isv(s[i]) && isc(s[i+1])) {
+			new[j+1] = '-';
+			j = j + 2;
+		}
+			
+		else{
+			j++;
+		}
+	}
+	new[j] = '\0';
+	return new;
+}
